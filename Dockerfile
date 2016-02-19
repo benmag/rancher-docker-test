@@ -27,7 +27,8 @@ COPY startcron.sh /data/bin/
 RUN chmod 755 /data/bin/*.sh
 
 # Setup Cron Job
-RUN cat /data/bin/testblogcron >> /etc/crontab
+RUN crontab /data/bin/testblogcron
+# RUN cat /data/bin/testblogcron >> /etc/crontab
 
 # Setup Cron Log
 RUN touch /var/log/testblog.log

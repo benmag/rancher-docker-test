@@ -32,4 +32,4 @@ RUN cat /data/bin/testblogcron >> /etc/crontab
 # Setup Cron Log
 RUN touch /var/log/testblog.log
 # Define default command.
-CMD [“/data/bin/startcron.sh”]
+CMD ["/data/bin/startcron.sh"]

@@ -6,7 +6,7 @@
 #
 
 # Use Ubuntu 10.04 as a base
-FROM ubuntu:10.04
+FROM phusion/baseimage
 
 # First let’s do some updates!
 RUN apt-get update && apt-get -y upgrade

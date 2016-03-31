@@ -1,36 +1,20 @@
-#
-# BlogTest Dockerfile
-#
-# Source : https://bitbucket.org/kvaes/docker-testblog/
-# Author : Karim Vaes
-#
+FROM richarvey/nginx-php-fpm
 
-# Use Ubuntu 10.04 as a base
-FROM phusion/baseimage
+# Install some dependencies
+RUN apt-get update && \
+	apt-get install curl nano && \
+	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# First let’s do some updates!
-RUN apt-get update && apt-get -y upgrade
+# Add new nginx config
+COPY conf/nginx-site.conf /etc/nginx/sites-available/default.conf
 
-# Install cron
-RUN apt-get -y install cron
+# Copy app source into tmp folder
+COPY app/ /app
 
-# Let’s prep the directory
-RUN mkdir -p /data/bin
+# Install app dependencies
+RUN cd /app && composer install --prefer-source --no-interaction --no-dev -vvv
 
-# Pull the latest batch script
-ENV HOME /root
-COPY testblog.sh /data/bin/
-COPY testblogcron /data/bin/
-COPY startcron.sh /data/bin/
-
-# Setup 755 on the scripts
-RUN chmod 755 /data/bin/*.sh
-
-# Setup Cron Job
-RUN crontab /data/bin/testblogcron
-# RUN cat /data/bin/testblogcron >> /etc/crontab
-
-# Setup Cron Log
-RUN touch /var/log/testblog.log
-# Define default command.
-CMD ["/data/bin/startcron.sh"]
+RUN chmod -R 777 /app/storage && \
+	chmod -R 777 /app/bootstrap/cache
+	
+EXPOSE 80

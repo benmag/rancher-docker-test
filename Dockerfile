@@ -14,7 +14,9 @@ COPY app/ /app
 # Install app dependencies
 RUN cd /app && \
 	composer create-project && \
-	composer install --no-interaction # --no-dev -vvv --prefer-source 
+	composer install --no-interaction && \
+	php artisan migrate --force
+
 
 RUN chmod -R 777 /app/storage && \
 	chmod -R 777 /app/bootstrap/cache

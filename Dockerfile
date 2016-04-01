@@ -12,7 +12,9 @@ COPY conf/nginx-site.conf /etc/nginx/sites-available/default.conf
 COPY app/ /app
 
 # Install app dependencies
-RUN cd /app && composer install --no-interaction # --no-dev -vvv --prefer-source 
+RUN cd /app && \
+	composer create-project && \
+	composer install --no-interaction # --no-dev -vvv --prefer-source 
 
 RUN chmod -R 777 /app/storage && \
 	chmod -R 777 /app/bootstrap/cache

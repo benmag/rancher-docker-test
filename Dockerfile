@@ -14,12 +14,15 @@ COPY app/ /app
 # Install app dependencies
 RUN cd /app && \
 	composer create-project && \
-	composer install --no-interaction && \
-	php artisan migrate --force
-
+	composer install --no-interaction 
+	
 # Set required permissions
 RUN chmod -R 777 /app/storage && \
 	chmod -R 777 /app/bootstrap/cache
 
+# Append environment vars `fastcgi_params`
+COPY files/copyenv /
+RUN chmod 755 /copyenv
+RUN ./copyenv
 
 EXPOSE 80

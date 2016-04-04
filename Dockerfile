@@ -1,5 +1,16 @@
 FROM richarvey/nginx-php-fpm
 
+# Build commands 
+# This is probably better done 
+# as an ARG but I don't know 
+# if Rancher supports that 
+ENV BUILD_COMMANDS \
+	cd /app && \
+	composer create-project && \
+	composer install --no-interaction
+	# add the migration to the build commands in the MasonJson
+	# php artisan migrate 
+
 # Install some dependencies
 RUN apt-get update && \
 	apt-get install curl nano && \

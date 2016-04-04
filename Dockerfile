@@ -8,6 +8,9 @@ RUN apt-get update && \
 # Add updated nginx config
 COPY conf/nginx-site.conf /etc/nginx/sites-available/default.conf
 
+# Add environment variable config
+COPY conf/env.conf /etc/nginx
+
 # Bundle app source
 COPY app/ /app
 
@@ -20,9 +23,16 @@ RUN cd /app && \
 RUN chmod -R 777 /app/storage && \
 	chmod -R 777 /app/bootstrap/cache
 
-# Append environment vars `fastcgi_params`
+# Add script that adds env vars into config file for nginx
 COPY files/copyenv /
 RUN chmod 755 /copyenv
-RUN ./copyenv
 
+# Add run script
+COPY files/run.sh /
+RUN chmod 755 /run.sh
+
+# Expose ports 
 EXPOSE 80
+
+# Start 
+CMD ["/bin/bash", "/run.sh"]

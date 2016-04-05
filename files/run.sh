@@ -4,7 +4,7 @@
 /bin/bash /copyenv
 
 # Run build commands
-/bin/bash $BUILD_COMMANDS
+eval $BUILD_COMMANDS
 
 # Start nginx 
 /bin/bash /start.sh

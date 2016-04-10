@@ -32,6 +32,7 @@ RUN cd /app && \
 	
 # Set required permissions
 RUN chmod -R 777 /app/storage && \
+	chmod -R 777 /app/storage/logs && \
 	chmod -R 777 /app/bootstrap/cache
 
 # Add script that adds env vars into config file for nginx

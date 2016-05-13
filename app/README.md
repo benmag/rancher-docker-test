@@ -1,5 +1,6 @@
 ## Laravel 5 example ##
 
+Test
 **Laravel 5 example** is a tutorial application (in french [there](http://laravel.sl-creation.org/)).
 
 ### Installation ###
